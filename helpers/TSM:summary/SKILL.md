@@ -1,6 +1,6 @@
 ---
-name: summary
-description: Produces a structured handoff summary of the current conversation — decisions, changes made, and pending work — formatted as copy-paste context for another agent. Use when the user invokes /summary, asks for a conversation summary, session handoff, or context to pass to another agent.
+name: "TSM:summary"
+description: Produces a structured handoff summary of the current conversation — decisions, changes made, and pending work — formatted as copy-paste context for another agent. Use when the user invokes /TSM:summary, /summary, asks for a conversation summary, session handoff, or context to pass to another agent.
 disable-model-invocation: true
 ---
 

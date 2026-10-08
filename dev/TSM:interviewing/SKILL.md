@@ -1,6 +1,6 @@
 ---
-name: interviewing
-description: Interview the user relentlessly about a plan, decision, or idea until shared understanding. Use when the user wants to stress-test their thinking, or uses interview-me, interviewing, or /interview-me.
+name: "TSM:interviewing"
+description: Interview the user relentlessly about a plan, decision, or idea until shared understanding. Use when the user wants to stress-test their thinking, or uses TSM:interviewing, TSM:interview-me, interview-me, interviewing, or /interview-me.
 ---
 
 Interview the user relentlessly until you reach a shared understanding. Map this as a **design tree**: every decision branches into the decisions that hang off it.

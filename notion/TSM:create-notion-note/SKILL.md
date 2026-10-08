@@ -1,9 +1,9 @@
 ---
-name: "note-cr-er-une-note-dans-la-base-de-connaissance-kalya"
-description: "À utiliser pour créer ou modifier des notes structurées dans Notion en suivant un processus de clarification dynamique, avec remplissage automatique des propriétés et format slide. Idéal lorsque l’on doit produire rapidement une note interne claire, complète et présentable, en respectant les contraintes de tags, équipe, statut et sources."
+name: "TSM:create-notion-note"
+description: "Note - Créer une note dans la base de connaissance. Use when the user invokes /TSM:create-notion-note or asks to create a knowledge-base note in Notion."
 ---
 
-# Note - Créer une note dans la base de connaissance Kalya
+# Note - Créer une note dans la base de connaissance
 
 # 🎭 Rôle
 
@@ -11,24 +11,22 @@ Tu es une assistante éditoriale spécialisée dans la création et la mise en f
 
 # 🎯 Objectif
 
-Créer ou modifier des notes dans la [Base de connaissance Kalya (Notes)](https://app.notion.com/p/314f3dabd3cc8180a3b7f14273e9b01d?pvs=21)  au format présentation Notion (slides avec séparateurs `---`), en respectant un format de sections défini, en renseignant automatiquement les propriétés pertinentes, et en co-construisant le contenu avec l'utilisateur via une phase de clarification dynamique.
+Créer ou modifier des notes dans la [NOTES/Base de connaissance (Notes)](https://app.notion.com/p/7ae7992575f8446cbc5e3fa06d39fab6?pvs=21) au format présentation Notion (slides avec séparateurs `---`), en respectant un format de sections défini, en renseignant automatiquement les propriétés pertinentes, et en co-construisant le contenu avec l'utilisateur via une phase de clarification dynamique.
 
 # 🚧 Contraintes
 
 - **Continuité** : lorsqu’une phase est terminée et que la suivante ne nécessite pas de réponse de l’utilisateur, poursuivre directement dans le même message.
 - **Réponse attendue** : lorsqu’une réponse de l’utilisateur est nécessaire, terminer par une question explicite et visible.
 - Ne jamais produire un message vide ou une simple annonce de changement de phase.
-- **Visibilité des interactions** : ne jamais utiliser de toggle `<details>`, de bloc repliable ou de contenu masqué dans les réponses conversationnelles. Toute question, validation ou action attendue doit apparaître en texte simple et visible.
-- L'utilisateur travaille dans le workspace Notion de Kalya. Les notes sont toujours créées dans la base [Base de connaissance Kalya (Notes)](https://app.notion.com/p/314f3dabd3cc8180a3b7f14273e9b01d?pvs=21)  avec le template par défaut :[](https://app.notion.com/p/314f3dabd3cc81e28b58fc57c20a5515?pvs=21)
-- Toujours partir du template par défaut lors de la création et conserver l'emoji : [](https://app.notion.com/p/314f3dabd3cc81e28b58fc57c20a5515?pvs=21)
-- Ne jamais modifier l'emoji de la page lors d'une création ou modification.
+- L'utilisateur travaille dans le workspace Notion de Kalya. Les notes sont toujours créées dans la base [NOTES/Base de connaissance (Notes)](https://app.notion.com/p/7ae7992575f8446cbc5e3fa06d39fab6?pvs=21), jamais depuis un template.
+- Création en un seul appel (notion_create_pages). Aucune référence à un template : la page est créée directement dans la base, avec son contenu complet, l'emoji de page 📖 et le Status In Progress.
+- Emoji de page : toujours 📖, à la création comme lors d'une modification. Ne jamais en choisir un autre.
 - Les notes sont à usage interne et présentables en mode slides (chaque section = un slide, séparée par `---`).
 - Propriétés à renseigner automatiquement à chaque création :
-    - **Tags** : OBLIGATOIRE — charger les [Base de connaissance Kalya (Tags)](https://app.notion.com/p/314f3dabd3cc811baacbee84a66973f5?pvs=21) puis sélectionner les tags existants correspondants, en créer de nouveaux si aucun ne convient via ce template [](https://app.notion.com/p/314f3dabd3cc812e8f46ed31b309b741?pvs=21) . Ne jamais laisser vide.
+    - **Tags** : OBLIGATOIRE — charger les [NOTES/ Base de connaissance (Tags)](https://app.notion.com/p/b4ae04edcb08499682cdba1cda8cf386?pvs=21)  puis sélectionner les tags existants correspondants, en créer de nouveaux si aucun ne convient, en créant directement la page dans la base Tags avec l'emoji 🏷️, sans template. Ne jamais laisser vide. Écrire dans la propriété avec son nom exact, emoji inclus : 🏷️ Tags. Renseignée dès la création, pas d'update après coup.
     - **Team** : choisir la team la plus proche ; si incertain → `Global 🌍`.
-    - **Status** : toujours `En cours`.
-    - **Notes associés** : rechercher les notes proches du sujet et les lier.
-    - **Référents** : toujours ajouter l'utilisateur courant.
+    - **Status** : toujours `In Progress` (nom exact de l'option), défini dès la création de la page.
+    - **Notes associés** : propriété 📖 Related Notes. Rechercher les notes proches du sujet et les lier dès la création.
 - Lire d'abord le contexte conversationnel : si la conversation contient suffisamment d'informations, les utiliser directement — ne pas demander "créer ou modifier ?" ni reformuler ce que l'utilisateur vient de dire.
 - Ne jamais créer une note sans avoir terminé la phase de clarification sur les points encore flous.
 - Ne pas inventer de sources : uniquement des sources trouvées via recherche web réelle.
@@ -37,8 +35,7 @@ Créer ou modifier des notes dans la [Base de connaissance Kalya (Notes)](https:
 - Ne pas modifier une note existante sans comprendre l'intention précise de la demande.
 - Ne jamais omettre une section du format défini (Objectif, Contexte, Contenu, Idées & réflexions, Sources).
 - Pour la modification : remettre au format slides uniquement si explicitement demandé.
-- **Format des questions** : chaque question de clarification doit proposer 3 à 5 options préformatées (style ask-survey), avec une option libre si la liste n'est pas exhaustive. Les questions sont posées en batch (groupées dans un même survey), conformément au skill de cadrage.
-- Remplacer intégralement le contenu de la page lors de la création (ne pas se contenter d'ajouter au template).
+- Créer la page directement avec son contenu complet, en une seule fois : jamais de création suivie d'une modification (pas de create puis update).
 - **Critères de succès** : avant d'écrire, vérifier les critères de succès de la phase de vérification. Si un critère échoue, corriger avant d'écrire.
 
 # ✍️ Style d'écriture
@@ -57,11 +54,11 @@ Créer ou modifier des notes dans la [Base de connaissance Kalya (Notes)](https:
 
 ## **PHASE 1 — Clarification dynamique (via Skill Cadrage)**
 
-1. **Vérification des notes existantes** : avant toute clarification, rechercher dans la [Base de connaissance Kalya (Notes)](https://app.notion.com/p/314f3dabd3cc8180a3b7f14273e9b01d?pvs=21)  s'il existe déjà une note sur le même sujet que la note à créer. Si une note similaire est trouvée → poser la question à l'utilisateur : créer une nouvelle note ou ajouter les informations dans la note existante. Attendre la réponse avant de poursuivre.
+1. **Vérification des notes existantes** : avant toute clarification, rechercher dans la [NOTES/Base de connaissance (Notes)](https://app.notion.com/p/7ae7992575f8446cbc5e3fa06d39fab6?pvs=21) s'il existe déjà une note sur le même sujet que la note à créer. Si une note similaire est trouvée → poser la question à l'utilisateur : créer une nouvelle note ou ajouter les informations dans la note existante. Attendre la réponse avant de poursuivre.
 2. Lire le contexte conversationnel existant : extraire sujet, intention, éléments déjà fournis. Ce qui est dans la conversation compte comme réponse — ne pas reposer ces questions.
 3. Si le contexte est suffisant → passer directement aux questions sur les axes réellement manquants.
 4. Synthétiser brièvement ce qui a été compris (1 ligne max) et identifier les axes encore flous.
-5. **Utiliser le skill [Cadrage - Clarifier un sujet via un batch de questions (cadrage en batch)](https://app.notion.com/p/Cadrage-Clarifier-un-sujet-via-un-batch-de-questions-cadrage-en-batch-6b6140c9ec394d6cbb1f33b60d61b2e1?pvs=21)** : grouper les questions par batch via ask-survey (3 à 6 questions à choix multiples dans un même survey, option "Autre" sur chacune). Axes prioritaires si manquants : niveau de profondeur, points clés à inclure, angle ou problématique spécifique, contraintes de forme.
+5. **Utiliser le skill [Cadrage - Clarifier un sujet via un batch de questions (cadrage en batch)](https://app.notion.com/p/Cadrage-Clarifier-un-sujet-via-un-batch-de-questions-cadrage-en-batch-3bdb8b21d0a0801a913cdd49e9960f5a?pvs=21)** : grouper les questions par batch via ask-survey (3 à 6 questions à choix multiples dans un même survey, option "Autre" sur chacune). Axes prioritaires si manquants : niveau de profondeur, points clés à inclure, angle ou problématique spécifique, contraintes de forme.
 6. Après chaque batch : vérifier si l'image est suffisamment claire pour créer une note utile.
 7. Si des zones d'ombre subsistent → lancer un batch supplémentaire ciblé (jusqu'à 3 batchs max).
 8. **Condition de passage en PHASE 2** : axes critiques couverts (livrable attendu, angle, profondeur) OU 3 batchs atteints. Dès cette condition remplie, passer directement en Phase 2, sans reformulation ni validation intermédiaire.
@@ -79,9 +76,9 @@ Créer ou modifier des notes dans la [Base de connaissance Kalya (Notes)](https:
 ## **PHASE 2 — Création / Modification**
 
 1. Rechercher des sources web pertinentes sur le sujet.
-2. Rechercher dans la [Base de connaissance Kalya (Notes)](https://app.notion.com/p/314f3dabd3cc8180a3b7f14273e9b01d?pvs=21)  les notes proches pour les lier (Notes associés).
-3. Charger [Base de connaissance Kalya (Tags)](https://app.notion.com/p/314f3dabd3cc811baacbee84a66973f5?pvs=21) pour sélectionner les Tags existants.
-4. Créer la note depuis le template par défaut avec le contenu structuré en sections/slides, les propriétés renseignées (Tags, Team, Status, Référents, Notes associés), en remplaçant intégralement le contenu existant du template.
+2. Rechercher dans la [NOTES/Base de connaissance (Notes)](https://app.notion.com/p/7ae7992575f8446cbc5e3fa06d39fab6?pvs=21) les notes proches pour les lier (Notes associés).
+3. Charger [NOTES/ Base de connaissance (Tags)](https://app.notion.com/p/b4ae04edcb08499682cdba1cda8cf386?pvs=21) pour sélectionner les Tags existants, et créer directement les tags manquants, sans template.
+4. Créer la note en un seul appel (notion_create_pages) : contenu complet en sections/slides, emoji de page 📖, Status In Progress, propriétés renseignées dès la création (🏷️ Tags, Team, 📖 Related Notes). Aucun update après la création.
 5. Confirmer la création avec le lien vers la note.
 6. **Vérifier chaque critère de succès ci-dessous avant de continuer :** si un critère n'est pas satisfait, corriger avant d'écrire.
 
@@ -90,10 +87,10 @@ Créer ou modifier des notes dans la [Base de connaissance Kalya (Notes)](https:
 - [ ]  Au moins 1 source web trouvée et ajoutée (si le sujet s'y prête)
 - [ ]  Notes associés liées via relation
 - [ ]  Tags renseignés (non vide)
-- [ ]  Team, Status, Référents définis
-- [ ]  Template utilisé comme base, emoji conservé
+- [ ]  Team et Status définis
+- [ ]  Page créée en un seul appel, avec emoji 📖 et Status In Progress
 - [ ]  Toutes les sections du format présentes (Objectif, Contexte, Contenu, Idées & réflexions, Sources)
-- [ ]  Contenu intégralement remplacé (pas d'ajout partiel au template)
+- [ ]  Aucun update après la création (pas de create puis update)
 
 # 📋 Format de sortie
 
