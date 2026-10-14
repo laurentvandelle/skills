@@ -17,7 +17,7 @@ Do not create, edit, or delete editor-specific rule files. Do not mention them i
 | Path | Role |
 | --- | --- |
 | `AGENTS.md` | Shared rules, exact commands, routing. Under 150 lines when this skill creates it. |
-| `<structural>/AGENTS.md` | Rules that apply only inside that directory. Under 80 lines. |
+| `<dir>/AGENTS.md` | One file in every top-level production directory, plus a child that is its own boundary. Under 80 lines. |
 | `ARCHITECTURE.md` | Background. Always at the root. |
 | `<structural>/ARCHITECTURE.md` | Background for one directory, only when that directory has background a short instruction file cannot hold. |
 | `CONTEXT.md` | Glossary. No implementation. |
@@ -44,13 +44,24 @@ Record:
 
 ## Structural directories
 
-A directory is structural when it is a boundary with rules that do not apply outside it:
+Create an `AGENTS.md` in every top-level directory that contains production source. A short file still gets written. Do not skip a directory because its conventions look thin or obvious.
 
-- a workspace member
-- a top-level app, package, service, or infrastructure directory that owns production code
-- one child of such a directory when that child is itself a boundary (its own forbidden imports, its own test layout, its own composition rules)
+Production source is application code. These top-level directories stay without an `AGENTS.md`:
 
-Skip vendor, generated output, build output, and test-only trees. A folder that only groups features of the same kind is not structural. When unsure, create nothing there and list the path under **Left unchanged**. Alias outcomes go under **Aliases**, not there.
+- dependencies, build output, and generated trees (`node_modules`, `dist`, `build`, `coverage`, `vendor`)
+- documentation only (`docs`)
+- editor, git, and CI metadata (`.git`, `.github`, `.cursor`)
+- a directory whose files are tests and nothing else
+
+Also create an `AGENTS.md` in a workspace member below the root, and in one child of a structural directory when that child is its own boundary: forbidden imports, a test layout, or composition rules that differ from the parent. A child that only groups features sharing the parent's rules does not get a file. When a child is unclear, leave it out and list it under **Left unchanged**. A top-level production directory is never left out.
+
+Creating the file and pointing at it are one step. For every nested `AGENTS.md`, the root **Routing** section contains:
+
+```markdown
+- Before editing `{dir}/**`, read `{dir}/AGENTS.md`.
+```
+
+A root file that names a directory as a boundary, without that bullet and without the nested file, is incomplete. Add both before finishing.
 
 ## Merge
 
@@ -128,7 +139,7 @@ Instructions for every coding agent. Humans read `README.md` and `ARCHITECTURE.m
 
 - **Role** — a few lines on what this repository is for. No tour of the tech stack.
 - **Commands** — a table of commands that exist, each with the exact invocation (`npm run verify`, `pnpm test`, `make check`). Point local setup at `README.md`.
-- **Routing** — one bullet per trigger, in the form "Before {action}, read {path}." Include a bullet for every structural `AGENTS.md`. Also include, when the file exists:
+- **Routing** — one bullet per trigger, in the form "Before {action}, read {path}." Directory bullets come first, one per nested `AGENTS.md`, using the sentence in **Structural directories**. Also include, when the file exists:
   - Before adding a dependency or crossing a module boundary, read `ARCHITECTURE.md`.
   - Before naming a domain concept, read `CONTEXT.md`.
   - Before writing an architecture decision, read `docs/adr/README.md`.
@@ -202,6 +213,16 @@ From the repository root, after `AGENTS.md` exists:
 
 Do not replace either file with a copy of `AGENTS.md`.
 
+## Check before the report
+
+Finish only when all three are true:
+
+- Every top-level production directory has an `AGENTS.md`.
+- Root **Routing** has the directory bullet from **Structural directories** for each nested file.
+- **Non-negotiables** says the closest `AGENTS.md` wins.
+
+Add whatever is missing, then report.
+
 ## Report
 
 End with a short report. Omit empty sections. Use these headings only:
@@ -214,4 +235,4 @@ End with a short report. Omit empty sections. Use these headings only:
 ### Verify command
 ### Aliases
 
-**Completed** names the sections added. **Left unchanged** is for structural directories you considered and did not scaffold. **Glossary candidates** is one line per excluded term and why it is ambiguous. **Verify command** is the exact command, or "No `verify` script found. No manifest was changed." **Aliases** states each symlink created, already correct, or left in place because a real file was there.
+**Completed** names the sections added. **Left unchanged** is for child directories you considered and did not scaffold. **Glossary candidates** is one line per excluded term and why it is ambiguous. **Verify command** is the exact command, or "No `verify` script found. No manifest was changed." **Aliases** states each symlink created, already correct, or left in place because a real file was there.

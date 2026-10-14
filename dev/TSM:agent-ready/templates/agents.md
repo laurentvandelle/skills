@@ -13,7 +13,9 @@ A harness that only loads the root file follows **Routing**. Each routing line i
 
 ## Nested files
 
-A directory that has its own rules gets its own `AGENTS.md`. The file closest to the edited file wins over the root file. Say that in the root file.
+Every top-level directory that contains production source has its own `AGENTS.md`. The root **Routing** section names each one: "Before editing `{dir}/**`, read `{dir}/AGENTS.md`." A harness that only loads the root file follows those lines. A harness that loads nested files uses the closest `AGENTS.md`, which wins over the root file. Say that in the root file.
+
+A child directory gets a file only when its rules differ from its parent. Feature folders that share the parent's rules do not.
 
 The root file keeps rules that apply to every task: exact commands, absolute prohibitions, where the rest of the docs live. A nested file keeps rules that apply only there. The same rule is not written in both.
 
