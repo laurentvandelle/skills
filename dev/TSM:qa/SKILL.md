@@ -1,7 +1,6 @@
 ---
 name: "TSM:qa"
 description: "Writes a French QA checklist from a GitHub issue plan. Groups scenarios by each ## section with precondition, actions, expected result, and a phone marker when a device is required. Use when the user invokes /TSM:qa with a GitHub issue URL, or when /TSM:implement finishes a pull request."
-disable-model-invocation: true
 ---
 
 Write the QA checklist for one GitHub issue plan. Print it in the chat. Do not execute the scenarios. Do not post them to the issue or the pull request.

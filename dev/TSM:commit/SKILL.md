@@ -1,7 +1,6 @@
 ---
 name: "TSM:commit"
 description: Commits current working-tree changes with one Conventional Commits subject. Use when the user invokes /TSM:commit or asks to commit changes.
-disable-model-invocation: true
 ---
 
 Commit the current changes.
