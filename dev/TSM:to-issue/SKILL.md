@@ -1,6 +1,6 @@
 ---
 name: "TSM:to-issue"
-description: Creates a GitHub issue from the latest written plan in the conversation. The title is a Conventional Commits subject and the body is that plan in English Markdown. Use only when the user invokes /TSM:to-issue.
+description: Creates a GitHub issue from the latest written plan in the conversation. The title is a Conventional Commits subject. The body starts with the Notion spec link, then the Git branch line, then that plan in English Markdown. Use only when the user invokes /TSM:to-issue.
 disable-model-invocation: true
 ---
 
@@ -25,7 +25,19 @@ One Conventional Commits subject:
 
 ## Body
 
-Translate the plan into English Markdown. Keep the plan's own structure. The body is only that plan.
+Start the body with the Notion spec link already in the conversation, then the Git branch line, then the plan. The link is the page URL passed to `/interview-me`, or the latest Notion page URL in the conversation when that prompt is absent. `notion.so` and `app.notion.com` URLs both count. If no Notion spec URL is present, stop and say so.
+
+Fetch that Notion card and read its `Git branch` property. If the fetch returns a formula pointer instead of the branch text, stop and say so.
+
+Translate the plan into English Markdown. Keep the plan's own structure.
+
+```markdown
+Spec: <notion url>
+
+Branch name : <Git branch>
+
+<plan>
+```
 
 ## Create
 
