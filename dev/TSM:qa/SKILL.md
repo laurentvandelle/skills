@@ -1,13 +1,17 @@
 ---
 name: "TSM:qa"
-description: "Writes a French QA checklist from a GitHub issue plan. Groups scenarios by each ## section with precondition, actions, expected result, and a phone marker when a device is required. Use when the user invokes /TSM:qa with a GitHub issue URL, or when /TSM:implement finishes a pull request."
+description: "Writes a French QA checklist from a GitHub issue plan. Groups scenarios by each ## section with a precondition, one checkbox per action step, an expected result, and a 📱 marker when a device is required. Use when the user invokes /TSM:qa with a GitHub issue URL, or when /TSM:implement-issue needs the checklist for its pull request body."
 ---
 
-Write the QA checklist for one GitHub issue plan. Print it in the chat. Do not execute the scenarios. Do not post them to the issue or the pull request.
+Write the QA checklist for one GitHub issue plan. Do not execute the scenarios.
+
+Invoked directly: print the checklist in the chat. Do not post it to the issue or the pull request.
+
+Invoked by `/TSM:implement-issue`: return the checklist so that skill puts it in the pull request body.
 
 ## Input
 
-A GitHub issue URL, or an issue body already fetched by `/TSM:implement`.
+A GitHub issue URL, or an issue body already fetched by `/TSM:implement-issue`.
 
 With a URL:
 
@@ -31,32 +35,43 @@ The `## Verification` group lists what the plan says `npm run verify` cannot pro
 
 ## Output
 
-Start with the issue title and URL. Then the groups.
+Start with a `# QA — <issue title>` heading, the issue URL, and this legend line:
+
+```markdown
+📱 = nécessite un téléphone, un émulateur ou un serveur réel.
+```
+
+Then the groups.
 
 Each scenario:
 
 ```markdown
 ## <exact ## title>
 
-### <short French name>
+### <short French name> 📱
 - Précondition : <state before the action>
-- Actions : <what the tester does>
+- Actions :
+  - [ ] <first step the tester does>
+  - [ ] <next step>
 - Résultat attendu : <observable outcome, with UI strings verbatim>
-- Téléphone
 ```
 
-Add the `Téléphone` line only when the scenario needs a phone, an emulator, or a live server. Omit it otherwise.
+Actions are always a nested checkbox list, one `- [ ]` per step the tester performs, in order, so each step can be ticked on GitHub. A scenario with a single step still uses one checkbox. Each step is one imperative French sentence.
 
-One scenario per observable outcome. Cover the plan's locked behavior, error copy, and edge cases.
+Add ` 📱` at the end of the scenario title only when the scenario needs a phone, an emulator, or a live server. Omit it otherwise.
+
+One scenario per observable outcome. Split a scenario when its steps lead to different results (for example one scenario per HTTP status). Cover the plan's locked behavior, error copy, and edge cases.
 
 ## Example
 
 ```markdown
 ## Locked behavior
 
-### Oublier le serveur
+### Oublier le serveur 📱
 - Précondition : un serveur est enregistré.
-- Actions : ouvrir Serveur, toucher Oublier le serveur, confirmer `Oublier ce serveur ?`.
+- Actions :
+  - [ ] Ouvrir Serveur et toucher **Oublier le serveur**.
+  - [ ] Confirmer `Oublier ce serveur ?`.
+  - [ ] Revenir sur Home.
 - Résultat attendu : l'URL, l'identifiant, le mot de passe, le nom du téléphone et le dossier sont effacés. Home affiche `Aucun serveur`.
-- Téléphone
 ```

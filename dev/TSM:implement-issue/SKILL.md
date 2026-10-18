@@ -1,10 +1,10 @@
 ---
-name: "TSM:implement"
-description: "Implements a GitHub issue whose body contains a plan and a `Branch name :` line. Creates a sibling git worktree and branch from origin/HEAD, codes the whole plan, runs npm run verify, commits each plan section with /TSM:commit, pushes once, opens a pull request, then runs /TSM:qa. Use when the user invokes /TSM:implement with a GitHub issue URL in Cursor or Claude Code."
+name: "TSM:implement-issue"
+description: "Implements a GitHub issue whose body contains a plan and a `Branch name :` line. Creates a sibling git worktree and branch from origin/HEAD, codes the whole plan, runs npm run verify, commits each plan section with /TSM:commit, pushes once, then opens a pull request whose body holds the /TSM:qa checklist. Use when the user invokes /TSM:implement-issue with a GitHub issue URL in Cursor or Claude Code."
 disable-model-invocation: true
 ---
 
-Implement one GitHub issue in a new worktree. Invoking `/TSM:implement` with an issue URL is the go-ahead. The same file serves Cursor and Claude Code. `TSM:commit` and `TSM:qa` are sibling skills of this file.
+Implement one GitHub issue in a new worktree. Invoking `/TSM:implement-issue` with an issue URL is the go-ahead. The same file serves Cursor and Claude Code. `TSM:commit` and `TSM:qa` are sibling skills of this file.
 
 ## Input
 
@@ -64,13 +64,13 @@ The plan is the issue body after the branch line. Text before the first `##` is 
 
 Code every `##` section, in order, in the worktree. Do not commit while coding.
 
-Then run `npm run verify` in the worktree. Fix failures and run it again. Still failing: stop. Name the failing command. Do not commit, do not push, do not open a pull request, do not run `/TSM:qa`.
+Then run `npm run verify` in the worktree. Fix failures and run it again. Still failing: stop. Name the failing command. Do not commit, do not push, do not run `/TSM:qa`, do not open a pull request.
 
 ## Commit
 
 When verify passes, use the /TSM:commit skill to commit each section into separate commits.
 
-## Push and pull request
+## Push
 
 No commits on the branch: stop and say the plan changed no files. Do not push.
 
@@ -80,23 +80,30 @@ From the worktree, push once:
 git push -u origin HEAD
 ```
 
-Push failed: stop and report the error. Do not open a pull request. Do not run `/TSM:qa`.
+Push failed: stop and report the error. Do not run `/TSM:qa`. Do not open a pull request.
 
-The pull request base is the default branch name without the `origin/` prefix. Title is the issue title, unchanged. Body is English: 2 to 4 lines on what the branch changes, then `Closes #<n>`. No labels, assignee, milestone, or draft. The QA checklist stays out of the body.
+## QA checklist
+
+Run the /TSM:qa skill on the issue body already fetched. Do not execute the scenarios. Keep the checklist for the pull request body; do not post it as a separate comment.
+
+## Pull request
+
+The pull request base is the default branch name without the `origin/` prefix. Title is the issue title, unchanged. No labels, assignee, milestone, or draft.
+
+The body has, in this order:
+
+1. 2 to 4 English lines on what the branch changes.
+2. `Closes #<n>`.
+3. A `---` separator, then the full `/TSM:qa` checklist, unchanged.
+
+Write the body to a file in the scratchpad (or a temporary directory outside the repo), then:
 
 ```bash
-gh pr create --title "<issue title>" --base "<default-branch>" --body "$(cat <<'EOF'
-<2 to 4 lines>
-
-Closes #<n>
-EOF
-)"
+gh pr create --title "<issue title>" --base "<default-branch>" --body-file <body-file>
 ```
 
-`gh pr create` failed: stop and report the error. Do not run `/TSM:qa`.
+`gh pr create` failed: stop and report the error.
 
-## QA
+## Reply
 
-Reply with the pull request URL, the worktree path, and the branch name.
-
-Then run the /TSM:qa skill on the issue body already fetched. Print that checklist in the chat. Do not execute the scenarios.
+Reply with the pull request URL, the worktree path, and the branch name. Say the QA checklist is in the pull request body. Do not reprint it in the chat.
