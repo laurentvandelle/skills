@@ -84,7 +84,7 @@ Push failed: stop and report the error. Do not run `/TSM:qa`. Do not open a pull
 
 ## QA checklist
 
-Run the /TSM:qa skill on the issue body already fetched. Do not execute the scenarios. Keep the checklist for the pull request body; do not post it as a separate comment.
+Run the /TSM:qa skill on the issue body already fetched. Do not execute the scenarios. Keep the checklist for the pull request body; do not post it as a separate comment. Leave the title checkbox unchecked.
 
 ## Pull request
 
