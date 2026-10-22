@@ -1,6 +1,6 @@
 ---
 name: "LV:to-issue"
-description: Creates a GitHub issue from the latest written plan in the conversation. The title is a Conventional Commits subject. The body starts with the Notion spec link, then the Git branch line, then that plan in English Markdown. Use only when the user invokes /LV:to-issue. Also /TSM:to-issue.
+description: Creates a GitHub issue from the latest written plan in the conversation. The title is a Conventional Commits subject. The body starts with the Notion spec link, then the Git branch line, then that plan in English Markdown. Optional model and effort arguments add exactly one claude:<model>-<effort> label after the issue exists. Use only when the user invokes /LV:to-issue. Also /TSM:to-issue.
 disable-model-invocation: true
 ---
 
@@ -39,9 +39,38 @@ Branch name : <Git branch>
 <plan>
 ```
 
+## Arguments
+
+Optional words after `/LV:to-issue` or `/TSM:to-issue`. Normalize them to lowercase. Order is model, then effort. Zero, one, or two words.
+
+- No words: model `opus`, effort `medium`.
+- One word: it must be a model. Effort is `medium`.
+- Two words: a model, then an effort.
+
+Models: `opus`, `sonnet`, `haiku`.
+
+Efforts: `low`, `medium`, `high`, `xhigh`, `max`.
+
+`fable` and `best` are invalid. An effort with no model is invalid (`/LV:to-issue high`). Reversed order is invalid (`/LV:to-issue high sonnet`). More than two words is invalid.
+
+Anything else stops before `gh issue create`. Print both lists. Create no issue and no label.
+
+The label name is `claude:<model>-<effort>`, for example `claude:opus-medium`.
+
+## Usage
+
+- `/LV:to-issue` → `claude:opus-medium`
+- `/LV:to-issue sonnet` → `claude:sonnet-medium`
+- `/LV:to-issue sonnet high` → `claude:sonnet-high`
+- `/LV:to-issue opus max` → `claude:opus-max`
+
+Labels are the cross product of the three models and the five efforts (15 names). The name carries the alias only, never a model version.
+
 ## Create
 
-From the open workspace, create the issue on that workspace's Git remote. Set no labels, assignee, or milestone. Create the issue even when a similar one already exists.
+From the open workspace, create the issue on that workspace's Git remote. Set no assignee or milestone. Create the issue even when a similar one already exists. Do not pass `--label` on create. Add exactly one `claude:*` label after the issue exists.
+
+Validate the arguments first. On failure, stop with the valid models and efforts. No issue, no label.
 
 ```bash
 gh issue create --title "<title>" --body "$(cat <<'EOF'
@@ -50,6 +79,33 @@ EOF
 )"
 ```
 
-Reply with the issue URL.
-
 If the remote cannot be resolved or `gh issue create` fails, stop and report the error.
+
+Take the issue number from the URL `gh issue create` prints. Look up the exact label name. `--search` filters server-side, so a long label list cannot hide it.
+
+```bash
+gh label list --search "<name>" --limit 100 --json name --jq '.[] | select(.name=="<name>") | .name'
+```
+
+If that command prints nothing, create the label. Do not pass `--force`, and do not change an existing label.
+
+```bash
+gh label create "<name>" --color 6E40C9 --description "Claude <model>, effort <effort>"
+```
+
+If creation is refused, leave the issue unlabeled. Print the issue URL, the error, and these commands. Do not retry.
+
+```bash
+gh label create "<name>" --color 6E40C9 --description "Claude <model>, effort <effort>"
+gh issue edit <number> --add-label "<name>"
+```
+
+If creation fails because the label already exists, add it. When the label exists, or after creating it, add it:
+
+```bash
+gh issue edit <number> --add-label "<name>"
+```
+
+If adding the label is refused, leave the issue as it is. Print the issue URL, the error, and `gh issue edit <number> --add-label "<name>"`. Do not retry.
+
+When the label is on the issue, reply with the issue URL and the label name.
