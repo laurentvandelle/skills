@@ -1,10 +1,10 @@
 ---
-name: "TSM:to-issue"
-description: Creates a GitHub issue from the latest written plan in the conversation. The title is a Conventional Commits subject. The body starts with the Notion spec link, then the Git branch line, then that plan in English Markdown. Use only when the user invokes /TSM:to-issue.
+name: "LV:to-issue"
+description: Creates a GitHub issue from the latest written plan in the conversation. The title is a Conventional Commits subject. The body starts with the Notion spec link, then the Git branch line, then that plan in English Markdown. Use only when the user invokes /LV:to-issue. Also /TSM:to-issue.
 disable-model-invocation: true
 ---
 
-Create a GitHub issue from the latest written plan in this conversation. Invoking `/TSM:to-issue` is the go-ahead: create the issue immediately.
+Create a GitHub issue from the latest written plan in this conversation. Invoking `/LV:to-issue` is the go-ahead: create the issue immediately.
 
 ## Plan
 

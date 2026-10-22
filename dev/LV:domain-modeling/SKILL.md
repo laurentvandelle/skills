@@ -1,6 +1,6 @@
 ---
-name: "TSM:domain-modeling"
-description: Build and sharpen a project's domain model. Use when the user invokes /TSM:domain-modeling, or when discussing codebase terminology, writing or editing a CONTEXT.md, or recording or editing an ADR.
+name: "LV:domain-modeling"
+description: Build and sharpen a project's domain model. Use when the user invokes /LV:domain-modeling, or when discussing codebase terminology, writing or editing a CONTEXT.md, or recording or editing an ADR. Also /TSM:domain-modeling.
 ---
 
 # Domain Modeling

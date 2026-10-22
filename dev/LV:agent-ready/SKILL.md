@@ -1,6 +1,6 @@
 ---
-name: "TSM:agent-ready"
-description: Sets up harness-agnostic coding-agent conventions in a repository. Creates or completes nested AGENTS.md files, a root ARCHITECTURE.md, a CONTEXT.md glossary, docs/ method guides, and docs/adr/. Use when the user invokes /TSM:agent-ready, or asks to make a repository agent-ready, add AGENTS.md conventions, or set up CONTEXT.md, architecture docs, and ADRs for coding agents.
+name: "LV:agent-ready"
+description: Sets up harness-agnostic coding-agent conventions in a repository. Creates or completes nested AGENTS.md files, a root ARCHITECTURE.md, a CONTEXT.md glossary, docs/ method guides, and docs/adr/. Use when the user invokes /LV:agent-ready, or asks to make a repository agent-ready, add AGENTS.md conventions, or set up CONTEXT.md, architecture docs, and ADRs for coding agents. Also /TSM:agent-ready.
 disable-model-invocation: true
 ---
 
@@ -28,7 +28,7 @@ Do not create, edit, or delete editor-specific rule files. Do not mention them i
 | `docs/maintenance.md` | Method guide. Copied from the template. |
 | `docs/adr/README.md` | When and how to write an ADR. Copied from the template. |
 
-Templates sit next to this skill: `~/.cursor/skills/dev/TSM:agent-ready/templates/`. Copy them verbatim when the destination file is missing.
+Templates sit next to this skill: `~/.cursor/skills/dev/LV:agent-ready/templates/`. Copy them verbatim when the destination file is missing.
 
 ## Inspect
 

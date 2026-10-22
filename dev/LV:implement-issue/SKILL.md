@@ -1,10 +1,10 @@
 ---
-name: "TSM:implement-issue"
-description: "Implements a GitHub issue whose body contains a plan and a `Branch name :` line. Creates a sibling git worktree and branch from origin/HEAD, codes the whole plan, runs npm run verify, commits each plan section with /TSM:commit, pushes once, then opens a pull request whose body holds the /TSM:qa checklist. Use when the user invokes /TSM:implement-issue with a GitHub issue URL in Cursor or Claude Code."
+name: "LV:implement-issue"
+description: "Implements a GitHub issue whose body contains a plan and a `Branch name :` line. Creates a sibling git worktree and branch from origin/HEAD, codes the whole plan, runs npm run verify, commits each plan section with /LV:commit, pushes once, then opens a pull request whose body holds the /LV:qa checklist. Use when the user invokes /LV:implement-issue with a GitHub issue URL in Cursor or Claude Code. Also /TSM:implement-issue."
 disable-model-invocation: true
 ---
 
-Implement one GitHub issue in a new worktree. Invoking `/TSM:implement-issue` with an issue URL is the go-ahead. The same file serves Cursor and Claude Code. `TSM:commit` and `TSM:qa` are sibling skills of this file.
+Implement one GitHub issue in a new worktree. Invoking `/LV:implement-issue` with an issue URL is the go-ahead. The same file serves Cursor and Claude Code. `LV:commit` and `LV:qa` are sibling skills of this file.
 
 ## Input
 
@@ -64,11 +64,11 @@ The plan is the issue body after the branch line. Text before the first `##` is 
 
 Code every `##` section, in order, in the worktree. Do not commit while coding.
 
-Then run `npm run verify` in the worktree. Fix failures and run it again. Still failing: stop. Name the failing command. Do not commit, do not push, do not run `/TSM:qa`, do not open a pull request.
+Then run `npm run verify` in the worktree. Fix failures and run it again. Still failing: stop. Name the failing command. Do not commit, do not push, do not run `/LV:qa`, do not open a pull request.
 
 ## Commit
 
-When verify passes, use the /TSM:commit skill to commit each section into separate commits.
+When verify passes, use the /LV:commit skill to commit each section into separate commits.
 
 ## Push
 
@@ -80,11 +80,11 @@ From the worktree, push once:
 git push -u origin HEAD
 ```
 
-Push failed: stop and report the error. Do not run `/TSM:qa`. Do not open a pull request.
+Push failed: stop and report the error. Do not run `/LV:qa`. Do not open a pull request.
 
 ## QA checklist
 
-Run the /TSM:qa skill on the issue body already fetched. Do not execute the scenarios. Keep the checklist for the pull request body; do not post it as a separate comment. Leave the title checkbox unchecked.
+Run the /LV:qa skill on the issue body already fetched. Do not execute the scenarios. Keep the checklist for the pull request body; do not post it as a separate comment. Leave the title checkbox unchecked.
 
 ## Pull request
 
@@ -94,7 +94,7 @@ The body has, in this order:
 
 1. 2 to 4 English lines on what the branch changes.
 2. `Closes #<n>`.
-3. A `---` separator, then the full `/TSM:qa` checklist, unchanged.
+3. A `---` separator, then the full `/LV:qa` checklist, unchanged.
 
 Write the body to a file in the scratchpad (or a temporary directory outside the repo), then:
 

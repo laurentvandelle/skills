@@ -1,17 +1,17 @@
 ---
-name: "TSM:qa"
-description: "Writes an English QA checklist from a GitHub issue plan. The title is an unchecked box to tick when QA is done. Groups scenarios by each ## section with a precondition, one checkbox per action step, an expected result, and a 📱 marker when a device is required. Use when the user invokes /TSM:qa with a GitHub issue URL, or when /TSM:implement-issue needs the checklist for its pull request body."
+name: "LV:qa"
+description: "Writes an English QA checklist from a GitHub issue plan. The title is an unchecked box to tick when QA is done. Groups scenarios by each ## section with a precondition, one checkbox per action step, an expected result, and a 📱 marker when a device is required. Use when the user invokes /LV:qa with a GitHub issue URL, or when /LV:implement-issue needs the checklist for its pull request body. Also /TSM:qa."
 ---
 
 Write the QA checklist for one GitHub issue plan. Do not execute the scenarios.
 
 Invoked directly: print the checklist in the chat. Do not post it to the issue or the pull request.
 
-Invoked by `/TSM:implement-issue`: return the checklist so that skill puts it in the pull request body.
+Invoked by `/LV:implement-issue`: return the checklist so that skill puts it in the pull request body.
 
 ## Input
 
-A GitHub issue URL, or an issue body already fetched by `/TSM:implement-issue`.
+A GitHub issue URL, or an issue body already fetched by `/LV:implement-issue`.
 
 With a URL:
 

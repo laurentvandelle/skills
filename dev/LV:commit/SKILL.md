@@ -1,6 +1,6 @@
 ---
-name: "TSM:commit"
-description: "Splits the current changes into a few Conventional Commits, one per broad area of the coding session, or a single commit when the work is one area. Use when the user invokes /TSM:commit or asks to commit changes."
+name: "LV:commit"
+description: "Splits the current changes into a few Conventional Commits, one per broad area of the coding session, or a single commit when the work is one area. Use when the user invokes /LV:commit or asks to commit changes. Also /TSM:commit."
 ---
 
 Commit the current changes. Group them into the broad areas of the coding session. One commit when the diff is one area. A handful at most. Do not split by file, hunk, or small fix.
