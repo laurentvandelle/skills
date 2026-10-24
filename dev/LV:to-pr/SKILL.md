@@ -1,10 +1,10 @@
 ---
 name: "LV:to-pr"
-description: Creates a GitHub pull request and its Git branch from the latest written plan in the conversation. The title is a Conventional Commits subject. The body starts with the Notion spec link, then the Git branch line, then that plan in English Markdown. After the pull request exists, comments `@claude /LV:implement code this plan`. Use only when the user invokes /LV:to-pr. Also /TSM:to-pr.
+description: Creates a GitHub pull request and its Git branch from the latest written plan in the conversation. The title is a Conventional Commits subject. The body starts with the Notion spec link, then the Git branch line, then that plan in English Markdown. After the pull request exists, comments `@claude implement-plan`. Use only when the user invokes /LV:to-pr.
 disable-model-invocation: true
 ---
 
-Create a GitHub pull request and its Git branch from the latest written plan in this conversation. Invoking `/LV:to-pr` is the go-ahead: create the branch and the pull request immediately. Set no model, label, assignee, milestone, or draft.
+Create a GitHub pull request and its Git branch from the latest written plan in this conversation. Invoking `/LV:to-pr` is the go-ahead: create the branch and the pull request immediately.
 
 ## Plan
 
@@ -48,10 +48,6 @@ Branch name : <Git branch>
 
 <plan>
 ```
-
-## Arguments
-
-`/LV:to-pr` and `/TSM:to-pr` take no arguments. Extra words stop before any git or `gh` command. Create no branch and no pull request.
 
 ## Branch
 
@@ -105,14 +101,14 @@ If the remote cannot be resolved or `gh pr create` fails, stop and report the er
 When the pull request exists, comment once. The comment body is exactly this line:
 
 ```text
-@claude /LV:implement code this plan
+@claude implement-plan
 ```
 
 Take the pull request URL from the URL `gh pr create` prints.
 
 ```bash
 gh pr comment <url> --body "$(cat <<'EOF'
-@claude /LV:implement code this plan
+@claude implement-plan
 EOF
 )"
 ```
