@@ -1,11 +1,9 @@
 ---
 name: "LV:commit"
-description: "Splits the current changes into a few Conventional Commits, one per broad area of the coding session, or a single commit when the work is one area. Use when the user invokes /LV:commit or asks to commit changes. Also /TSM:commit."
+description: "Splits the current changes into a few Conventional Commits, one per broad area of the coding session. Use when the user invokes /LV:commit or asks to commit changes."
 ---
 
-Commit the current changes. Group them into the broad areas of the coding session. One commit when the diff is one area. A handful at most. Do not split by file, hunk, or small fix.
-
-If the caller already named a subset (for example one plan section), commit only that subset, still as one commit unless it mixes unrelated areas.
+Commit the current changes. Group them into the broad areas of the coding session.
 
 ## Grouping
 
