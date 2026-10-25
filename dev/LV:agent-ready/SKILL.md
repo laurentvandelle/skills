@@ -6,6 +6,28 @@ disable-model-invocation: true
 
 # Agent-ready repository
 
+## Intention
+
+```mermaid
+flowchart TB
+  Claude["CLAUDE.md"] -->|symlink| Agents
+  Copilot[".github/copilot-instructions.md"] -->|symlink| Agents
+
+  Agents["AGENTS.md<br/>only instruction body"]
+
+  Agents -->|before editing a directory| Nested["dir/AGENTS.md<br/>local rules, closest file wins"]
+  Agents -->|before a boundary| Arch["ARCHITECTURE.md<br/>background"]
+  Agents -->|before a domain term| Context["CONTEXT.md<br/>glossary"]
+  Agents -->|before a convention or decision| Docs["docs/"]
+
+  Docs --> AgentsGuide["agents.md"]
+  Docs --> Guardrails["guardrails.md"]
+  Docs --> Maintenance["maintenance.md"]
+  Docs --> Adr["adr/README.md"]
+
+  Nested -.->|only when that directory has background| LocalArch["dir/ARCHITECTURE.md"]
+```
+
 Install one instruction tree that any coding harness can follow. `AGENTS.md` is the only instruction body. Root aliases cover harnesses that look for another filename. Method guides live in `docs/`. The glossary lives in `CONTEXT.md`. Background lives in `ARCHITECTURE.md`.
 
 Work in the repository the user named. If they named none, use the current workspace. Do not commit unless asked. Do not edit package manifests, lockfiles, or linter config. `LV:agent-ready-node-deps` installs `npm run verify`.
