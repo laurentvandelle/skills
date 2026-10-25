@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Install one instruction tree that any coding harness can follow. `AGENTS.md` is the only instruction body. Root aliases cover harnesses that look for another filename. Method guides live in `docs/`. The glossary lives in `CONTEXT.md`. Background lives in `ARCHITECTURE.md`.
 
-Work in the repository the user named. If they named none, use the current workspace. Do not commit unless asked. Do not edit package manifests, lockfiles, or linter config.
+Work in the repository the user named. If they named none, use the current workspace. Do not commit unless asked. Do not edit package manifests, lockfiles, or linter config. `LV:agent-ready-node-deps` installs `npm run verify`.
 
 Do not create, edit, or delete editor-specific rule files. Do not mention them in the report.
 
