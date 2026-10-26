@@ -115,4 +115,14 @@ EOF
 
 If the comment is refused, leave the pull request as it is. Print the pull request URL, the error, and that command. Do not retry.
 
-When the comment is on the pull request, reply with the pull request URL, the worktree path, and the branch name.
+## Cleanup
+
+When the pull request exists, remove the worktree. Do this after the comment step, whether the comment landed or was refused. Run it from the original git root, not from inside the worktree:
+
+```bash
+git worktree remove ../{RepoName}-{lastSegment}
+```
+
+Removing the worktree leaves the branch. If removal fails, report the error and the path. The pull request stays as it is.
+
+Reply with the pull request URL and the branch name.
