@@ -50,7 +50,7 @@ Do not create, edit, or delete editor-specific rule files. Do not mention them i
 | `docs/maintenance.md` | Method guide. Copied from the template. |
 | `docs/adr/README.md` | When and how to write an ADR. Copied from the template. |
 
-Templates sit next to this skill: `~/.cursor/skills/dev/LV:agent-ready/templates/`. Copy them verbatim when the destination file is missing.
+Templates sit next to this skill, in `templates/` (same directory as this file). Copy them verbatim when the destination file is missing.
 
 ## Inspect
 

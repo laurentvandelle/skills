@@ -1,17 +1,27 @@
 # Agent practices for this skills repo
 
-This repository is the personal Cursor skills library (`~/.cursor/skills`). Follow these rules when adding or changing a skill.
+This repository is the personal skills library for Cursor and Claude Code. Follow these rules when adding or changing a skill.
 
 ## Layout
 
 ```
-<category>/LV:<skill-name>/
+<harness>/LV:<skill-name>/
 ├── SKILL.md              # required
 ├── reference.md          # optional, loaded only when needed
 └── scripts/              # optional
 ```
 
-- Group skills by domain (`dev/`, `helpers/`, `notion/`). Do not put skills at the repo root.
+Harness is one of:
+
+| Folder | Who loads it |
+|--------|----------------|
+| `common/` | Cursor and Claude Code |
+| `cursor/` | Cursor only |
+| `claude/` | Claude Code only |
+
+- Put a skill in `common/` when both agents can run it. Put it in `cursor/` or `claude/` when it depends on that agent's tools (Cursor plan mode, AskQuestion, a `@claude` handoff, Claude-only hooks).
+- Do not copy one skill into two harness folders.
+- Each skill sits directly under its harness. Do not add domain folders (`dev/`, `helpers/`) and do not put skills at the repo root.
 - One skill per directory. The directory name **must** match the YAML `name`.
 - Never create or edit skills in `~/.cursor/skills-cursor/` (Cursor built-ins).
 
@@ -20,7 +30,7 @@ This repository is the personal Cursor skills library (`~/.cursor/skills`). Foll
 Every skill is `LV:<skill-name>`:
 
 - `name` in frontmatter: `"LV:code-review"` (always quote — the colon is YAML-significant)
-- Folder: `dev/LV:code-review/`
+- Folder: `common/LV:code-review/` (or `cursor/…`, `claude/…`)
 - Slash command: `/LV:code-review`
 
 `<skill-name>` is kebab-case, specific, max 64 characters for the full `LV:…` id. No generic names (`helper`, `utils`, `tools`).
@@ -54,7 +64,7 @@ Body:
 ## Adding a skill
 
 1. Confirm no existing `LV:` skill already covers the job.
-2. Pick the category folder. Create `LV:<skill-name>/SKILL.md`.
+2. Pick the harness (`common`, `cursor`, or `claude`). Create `LV:<skill-name>/SKILL.md` directly under it.
 3. Write the description with triggers before writing the body.
 4. Add scripts only when generated code would be fragile or inconsistent.
 5. Check: name = folder, description has WHAT+WHEN, body < 500 lines, links are one level deep.
